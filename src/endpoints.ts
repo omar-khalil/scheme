@@ -1,11 +1,13 @@
 import { SomeZodObject, ZodLiteral, ZodObject, z } from "zod";
 import { objects } from "./objects";
 
+export type api_method = "PUT" | "POST" | "PATCH" | "GET" | "DELETE";
+
 type ZodEndpoint = ZodObject<{
   url: ZodLiteral<string>;
-  type: ZodLiteral<"PUT" | "POST" | "GET" | "DELETE">;
+  type: ZodLiteral<api_method>;
   params: SomeZodObject;
-  response?: SomeZodObject;
+  response: SomeZodObject;
 }>;
 
 const bla = z.strictObject({
@@ -15,6 +17,7 @@ const bla = z.strictObject({
     someparam: z.string(),
   }),
   type: z.literal("GET"),
+  response: z.strictObject({}),
 }) satisfies ZodEndpoint;
 
 type x = typeof bla._type;
@@ -32,14 +35,14 @@ const endpoint_defs = {
     url: z.literal("/user"),
     type: z.literal("POST"),
     params: objects.user,
-    // response: z.strictObject({
-    //   user_id: z.string(), //backend could respond with an id for the created user
-    // })
+    response: z.strictObject({
+      user_id: z.string(), //backend could respond with an id for the created user
+    }),
   }),
 } satisfies Record<string, ZodEndpoint>;
 
 const endpoint_defs_object = z.object(endpoint_defs);
-type endpoint_defs_type = typeof endpoint_defs_object._type;
+export type endpoint_defs_type = typeof endpoint_defs_object._type;
 const endpoints: endpoint_defs_type = {
   get_user: {
     url: "/user",
@@ -56,6 +59,9 @@ const endpoints: endpoint_defs_type = {
     type: "POST",
     params: {
       name: "User b",
+    },
+    response: {
+      user_id: "124",
     },
   },
 };
