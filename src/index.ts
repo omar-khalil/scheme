@@ -18,24 +18,12 @@ const main: () => void = () => {
   // const result = fooSchema.parse({
   //   abc: "hi",
   // });
-  fetch("https://api.datamuse.com/words?ml=test").then(async (res) => {
-    const resultJson = await res.json();
-    console.log(resultJson);
-  });
+  // fetch("https://api.datamuse.com/words?ml=test").then(async (res) => {
+  //   const resultJson = await res.json();
+  //   console.log(resultJson);
+  // });
+  const bar = barSchema.parse({ klm: "abc" });
+  console.log(bar);
 };
 
 main();
-
-// type DataType = {
-//   type: 'string';
-//   value: string;
-// } | {
-//   type: 'number';
-//   value: number;
-// } | {
-//   type: 'boolean';
-//   value: boolean;
-// } | {
-//   type: ''
-// }
-// const objects =

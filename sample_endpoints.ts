@@ -1,5 +1,9 @@
 import express from "express";
-import { api_method, endpoint_defs_type } from "./src/endpoints";
+import {
+  api_method,
+  endpoint_schema,
+  endpoint_defs_type,
+} from "./src/endpoints";
 import extract_entries from "./src/extract_entries";
 
 const app = express();
@@ -33,6 +37,7 @@ const endpoint_implementations: {
     url: "/user",
     method: "GET",
     on_call: ({ user_id }) => {
+      console.log(user_id);
       return {
         name: "name!",
       };
@@ -42,26 +47,42 @@ const endpoint_implementations: {
     url: "/user",
     method: "POST",
     on_call: ({ name }) => {
+      console.log(name);
       return {
         user_id: "user id!",
+      };
+    },
+  },
+  delete_user: {
+    url: "/user",
+    method: "DELETE",
+    on_call: ({ user_id }) => {
+      console.log(`Deleting ${user_id}`);
+      return {
+        message: `Successfully deleted ${user_id}`,
       };
     },
   },
 };
 
 const run_server = () => {
-  const endpoints = extract_entries(endpoint_implementations).map(
-    ({ key, value }) => {
-      const { on_call, method, url } = value;
-      app[express_methods[method]](url, (req, res) => {
-        //validate request params against endpoint type, then cast i
-        const response = on_call(req.params);
-        res.status(200).send(response);
-      });
-    }
-  );
+  extract_entries(endpoint_implementations).forEach(({ key, value }) => {
+    const { on_call, method, url } = value;
+    app[express_methods[method]](url, (req, res) => {
+      console.log({ query: req.query, params: req.params });
+      //validate request params against endpoint schema. Throws an error if params doesn't match
+      const { params } = endpoint_schema[key]
+        .pick({ params: true })
+        .parse({ params: req.query });
+      const response = on_call(params as any); //now that params has been validated, it's safe to use 'as any' here
+      res.status(200).send(response);
+    });
+  });
 
-  app.listen(4001, () => {
-    console.log("zoho-api-server started on port 4001");
+  const PORT = 4001;
+  app.listen(PORT, () => {
+    console.log(`api-server started on port http://localhost:${PORT}`);
   });
 };
+
+run_server();
