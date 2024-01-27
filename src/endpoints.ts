@@ -1,7 +1,7 @@
-import { AnyZodObject, SomeZodObject, ZodLiteral, ZodObject, z } from "zod";
-import { objects } from "./objects";
+import {SomeZodObject, z} from "zod";
+import {objects} from "./objects";
 
-export type api_method = "PUT" | "POST" | "PATCH" | "GET" | "DELETE";
+type api_method = "put" | "post" | "patch" | "get" | "delete";
 
 type ZodEndpoint = {
   url: string;
@@ -15,7 +15,7 @@ type ZodEndpoint = {
 export const endpoint_schema = {
   get_user: {
     url: "/user",
-    type: "GET",
+    type: "get",
     schema: {
       params: z.object({
         user_id: z.string(),
@@ -25,7 +25,7 @@ export const endpoint_schema = {
   },
   post_user: {
     url: "/user",
-    type: "POST",
+    type: "post",
     schema: {
       params: objects.user,
       response: z.object({
@@ -35,7 +35,7 @@ export const endpoint_schema = {
   },
   delete_user: {
     url: "/user",
-    type: "DELETE",
+    type: "delete",
     schema: {
       params: z.strictObject({
         user_id: z.string(),

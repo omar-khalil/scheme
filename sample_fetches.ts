@@ -1,5 +1,6 @@
 import axios from "axios";
 import {endpoint_schema, params, response} from "./src/endpoints";
+import extract_entries from "./src/extract_entries";
 
 const base = "http://localhost:4001";
 
@@ -14,25 +15,20 @@ const create_fetcher: <T extends endpoint_key>(endpoint: T) => fetcher<T> = (end
   const func: (params: params<T>) => Promise<response<T>> = async (params) => {
     const params_string = new URLSearchParams(params).toString();
 
-    //TODO: instead of post, use type
-    const result = await axios.post(`${base}${url}?${params_string}`);
+    const result = await axios[type](`${base}${url}?${params_string}`);
     const response = schema.response.parse(result.data);
     return response;
   };
   return func;
 };
 
-const fetchers: fetchers_dict = {
-  post_user: create_fetcher("post_user"),
-  delete_user: create_fetcher("delete_user"),
-  get_user: create_fetcher("get_user"),
-}; //TODO: create automatically by mapping through endpoint keys and reducing them to this object
+const fetchers = extract_entries(endpoint_schema)
+  .map(({key}) => ({key, fetcher: create_fetcher(key)}))
+  .reduce((acc, curr) => ({...acc, [curr.key]: curr.fetcher}), {} as fetchers_dict);
 
 const run_fetch = async () => {
   const result = await fetchers.post_user({name: "Omar"});
   console.log(result);
-
-  // const user = await fetchers.get_user({ user_id: "abc" });
 };
 
 run_fetch();
