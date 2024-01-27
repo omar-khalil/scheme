@@ -2,13 +2,13 @@ import express from "express";
 import {
   api_method,
   endpoint_schema,
-  endpoint_defs_type,
+  endpoint_schema_type,
 } from "./src/endpoints";
 import extract_entries from "./src/extract_entries";
 
 const app = express();
 
-type endpoint_keys = keyof endpoint_defs_type;
+type endpoint_keys = keyof endpoint_schema_type;
 
 //T = parameters, U = response, R = url, M = method
 type handler<T extends object, U, R, M> = {
@@ -27,10 +27,10 @@ const express_methods: { [k in api_method]: Lowercase<k> } = {
 
 const endpoint_implementations: {
   [p in endpoint_keys]: handler<
-    endpoint_defs_type[p]["params"],
-    endpoint_defs_type[p]["response"],
-    endpoint_defs_type[p]["url"],
-    endpoint_defs_type[p]["type"]
+    endpoint_schema_type[p]["params"],
+    endpoint_schema_type[p]["response"],
+    endpoint_schema_type[p]["url"],
+    endpoint_schema_type[p]["type"]
   >;
 } = {
   get_user: {

@@ -40,4 +40,4 @@ export const endpoint_schema = {
 } satisfies Record<string, ZodEndpoint>;
 
 const endpoint_defs_object = z.object(endpoint_schema);
-export type endpoint_defs_type = z.infer<typeof endpoint_defs_object>;
+export type endpoint_schema_type = z.infer<typeof endpoint_defs_object>;
