@@ -13,20 +13,37 @@ type endpoint_keys = keyof typeof endpoint_schema;
 const endpoint_implementations: {[p in endpoint_keys]: (params: params<p>) => response<p>} = {
   get_user: ({user_id}) => {
     console.log(`Getting ${user_id}`);
+    if (user_id === 'error') {
+      return {
+        status: 404,
+        data: {
+          message: `${user_id} not found!`
+        }
+      }
+    }
     return {
-      name: "name!",
+      status: 200,
+      data: {
+        name: "name!",
+      }
     };
   },
   post_user: ({name}) => {
     console.log(`Posting ${name}`);
     return {
-      user_id: "user id!",
+      status: 200,
+      data: {
+        user_id: "user id!",
+      }
     };
   },
   delete_user: ({user_id}) => {
     console.log(`Deleting ${user_id}`);
     return {
-      message: `Successfully deleted ${user_id}`,
+      status: 200,
+      data: {
+        message: `Successfully deleted ${user_id}`,
+      }
     };
   },
 };
