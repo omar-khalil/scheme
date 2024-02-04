@@ -30,7 +30,7 @@ const run_fetch = async () => {
   const result = await fetchers.post_user({name: "Omar"});
   console.log(result);
 
-  const get_result = await fetchers.get_user({user_id: 'error'});
+  const get_result = await fetchers.get_user({user_id: 'error', type: 'student'});
   console.log(get_result);
 };
 

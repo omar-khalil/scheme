@@ -1,33 +1,16 @@
-import {SomeZodObject, ZodArray, ZodDiscriminatedUnion, ZodEnum, ZodLiteral, ZodNumber, ZodObject, ZodUnion, z} from "zod";
 import {objects} from "./objects";
+import {endpoint_schema_type, response_schema, s} from "./data_types";
+import {z} from "zod";
+import extract_entries from "./extract_entries";
 
-type api_method = "put" | "post" | "patch" | "get" | "delete";
+const bla: Record<200, string> & Record<number, string | undefined> = {
+  200: 'abc',
+  123: 'bla'
+};
 
-
-type response_schema = ZodDiscriminatedUnion<"status", Array<ZodObject<{status: ZodLiteral<number>, data: SomeZodObject}>>>;
-
-const response_schema_example = z.discriminatedUnion('status', [
-  z.strictObject({status: z.literal(200), data: objects.user}),
-  z.strictObject({status: z.literal(404), data: z.object({message: z.string()})}),
-]) satisfies response_schema;
-
-type res_type = z.infer<typeof response_schema_example>;
-function fun(res: res_type): string {
-  switch (res.status) {
-    case 200:
-      return res.data.name;
-    case 404:
-      return res.data.message;
-  }
-}
-
-type endpoint_schema_type = {
-  url: string;
-  type: api_method;
-  schema: {
-    params: SomeZodObject;
-    response: response_schema;
-  };
+const make_res: (params: Record<200, object> & Record<number, object | undefined>) => response_schema = (params) => {
+  const entries = extract_entries(params);
+  return s.du("status", [s.obj({status: s.const(200), data: s.obj({})})]);
 };
 
 export const endpoint_schema = {
@@ -35,12 +18,14 @@ export const endpoint_schema = {
     url: "/user",
     type: "get",
     schema: {
-      params: z.object({
-        user_id: z.string(),
+      params: s.obj({
+        user_id: s.str,
+        type: s.enum(['student', 'user'])
       }),
-      response: z.discriminatedUnion("status", [
-        z.strictObject({status: z.literal(200), data: objects.user}),
-        z.strictObject({status: z.literal(404), data: z.object({message: z.string()})}),
+      //TODO: simplify creating responses further
+      response: s.du("status", [
+        s.obj({status: s.const(200), data: objects.user}),
+        s.obj({status: s.const(404), data: s.obj({message: s.str})}),
       ]),
     }
   },
@@ -49,8 +34,8 @@ export const endpoint_schema = {
     type: "post",
     schema: {
       params: objects.user,
-      response: z.discriminatedUnion("status", [
-        z.strictObject({status: z.literal(200), data: z.object({user_id: z.string()})})
+      response: s.du("status", [
+        s.obj({status: s.const(200), data: s.obj({user_id: s.str})})
       ]),
     }
   },
@@ -58,11 +43,11 @@ export const endpoint_schema = {
     url: "/user",
     type: "delete",
     schema: {
-      params: z.strictObject({
-        user_id: z.string(),
+      params: s.obj({
+        user_id: s.str,
       }),
-      response: z.discriminatedUnion("status", [
-        z.strictObject({status: z.literal(200), data: z.object({message: z.string()})})
+      response: s.du("status", [
+        s.obj({status: s.const(200), data: s.obj({message: s.str})})
       ]),
     }
   },
