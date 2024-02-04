@@ -1,31 +1,21 @@
-import { ZodObject, z } from "zod";
+import {z} from "zod";
+import {s} from "./data_types";
 
-const userType = z.strictObject({
-  name: z.string(),
+const user_type = s.obj({
+  name: s.str,
+  age: s.num,
 });
 
 export const objects = {
-  user: userType,
-  school: z.object({
-    users: z.array(userType),
+  user: user_type,
+  school: s.obj({
+    users: s.array(user_type),
   }),
-  class: z.object({
-    maxUsers: z.number(),
+  class: s.obj({
+    max_users: s.num,
+    current_users: s.array(user_type),
   }),
 } satisfies Record<string, z.AnyZodObject>;
 
-const allObjects = z.object(objects);
-
-type objectTypes = typeof allObjects._type;
-
-const someClass: objectTypes["class"] = {
-  maxUsers: 3,
-};
-
-const someSchool: objectTypes["school"] = {
-  users: [{ name: "user a" }, { name: "user b" }],
-};
-
-const someUser: objectTypes["user"] = {
-  name: "user a",
-};
+const allObjects = s.obj(objects);
+export type objectTypes = z.infer<typeof allObjects>;
