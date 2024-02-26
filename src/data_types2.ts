@@ -30,6 +30,7 @@ export const s = {
     values: objects.map<data_type>((obj) => ({type: 'object', properties: obj})) as [data_type, data_type, ...data_type[]],
   }),
   obj: (properties: Record<string, data_type>) => ({type: 'object', properties: properties}),
+  string_record: (properties: Record<string, string_data_type>) => ({type: 'object', properties: properties}),
 } satisfies Record<string, (props1: any, props2: any) => data_type>;
 
 type api_method = "put" | "post" | "patch" | "delete" | "get";

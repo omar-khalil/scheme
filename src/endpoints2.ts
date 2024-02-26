@@ -1,4 +1,4 @@
-import {endpoint_schema_type} from "./data_types2";
+import {endpoint_schema_type, s} from "./data_types2";
 import objects from "./objects2";
 import {generate_contract} from "./zod_to_contract";
 
@@ -7,16 +7,13 @@ export const endpoint_schema = {
     url: "/user",
     type: "get",
     schema: {
-      params: {
-        type: 'object',
-        properties: {
-          user_id: {type: 'string'},
-          user_type: {type: 'enum', values: ['student', 'teacher']},
-        },
-      },
+      params: s.string_record({ //FIXME: maybe params should just accept an object that gets chewed into a datatype later, like with responses?
+        user_id: s.str(),
+        user_type: s.enum(['student', 'teacher']),
+      }),
       responses: [
         {status: 200, data: objects.user},
-        {status: 404, data: {type: 'object', properties: {message: {type: 'string'}}}},
+        {status: 404, data: s.obj({message: s.str()})},
       ]
     }
   },
@@ -26,7 +23,7 @@ export const endpoint_schema = {
     schema: {
       params: objects.user,
       responses: [
-        {status: 200, data: {type: 'object', properties: {user_id: {type: 'string'}}}}
+        {status: 200, data: s.obj({user_id: s.str()})}
       ]
     }
   },
@@ -34,9 +31,9 @@ export const endpoint_schema = {
     url: "/user",
     type: "delete",
     schema: {
-      params: {type: 'object', properties: {user_id: {type: 'string'}}},
+      params: s.obj({user_id: s.str()}),
       responses: [
-        {status: 200, data: {type: 'object', properties: {message: {type: 'string'}}}}
+        {status: 200, data: {type: 'object', properties: {message: s.str()}}}
       ]
     }
   },
