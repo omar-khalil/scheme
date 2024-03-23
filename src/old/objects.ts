@@ -1,7 +1,7 @@
 import {z} from "zod";
 import {s} from "./data_types";
 import {createTypeAlias, printNode, zodToTs} from "zod-to-ts";
-import write_to_file from "./write_to_file";
+import write_to_file from "../write_to_file";
 
 const userSchema = s.obj({
   name: s.str,

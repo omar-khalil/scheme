@@ -1,7 +1,7 @@
 import {objects} from "./objects";
 import {endpoint_schema_type, response_schema, s} from "./data_types";
 import {z} from "zod";
-import extract_entries from "./extract_entries";
+import extract_entries from "../extract_entries";
 
 const bla: Record<200, string> & Record<number, string | undefined> = {
   200: 'abc',

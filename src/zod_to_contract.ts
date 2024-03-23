@@ -10,10 +10,10 @@ export const generate_contract: (schema: data_type, identifier: string) => void 
 };
 
 const zod_to_contract: (schema: ZodTypeAny, identifier: string) => void = (schema, identifier) => {
-  const {node, store} = zodToTs(schema, identifier);
+  const {node} = zodToTs(schema, identifier);
   const typeAlias = createTypeAlias(node, identifier);
   const nodeString = printNode(typeAlias);
-  write_to_file(nodeString, 'test.ts');
+  write_to_file(nodeString, process.cwd() + `\\contracts\\${identifier}.d.ts`);
 };
 
 export default zod_to_contract;

@@ -38,5 +38,3 @@ export const endpoint_schema = {
     }
   },
 } satisfies Record<string, endpoint_schema_type>;
-
-generate_contract(endpoint_schema.get_user.schema.responses[1].data, 'params');

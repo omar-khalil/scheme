@@ -1,29 +1,11 @@
-import { z } from "zod";
+import {endpoint_schema} from "./endpoints2";
+import extract_entries from "./extract_entries";
+import {generate_contract} from "./zod_to_contract";
 
-const barSchema = z.object({
-  klm: z.string(),
-});
-
-const fooSchema = z.object({
-  abc: z.string(),
-  def: z.tuple([z.string(), z.number()]),
-  hij: z.object({
-    bar: barSchema,
-  }),
-});
-
-type x = typeof fooSchema._type;
-
-const main: () => void = () => {
-  // const result = fooSchema.parse({
-  //   abc: "hi",
-  // });
-  // fetch("https://api.datamuse.com/words?ml=test").then(async (res) => {
-  //   const resultJson = await res.json();
-  //   console.log(resultJson);
-  // });
-  const bar = barSchema.parse({ klm: "abc" });
-  console.log(bar);
+const generate_contracts = () => {
+  extract_entries(endpoint_schema).map(({key, value}) => {
+    const params = value.schema.params;
+    generate_contract(params, key);
+  });
 };
-
-main();
+generate_contracts();

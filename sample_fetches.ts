@@ -1,5 +1,5 @@
 import axios from "axios";
-import {endpoint_schema, params, response} from "./src/endpoints";
+import {endpoint_schema, params, response} from "./src/old/endpoints";
 import extract_entries from "./src/extract_entries";
 import {z} from "zod";
 

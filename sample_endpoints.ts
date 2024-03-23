@@ -3,7 +3,7 @@ import {
   endpoint_schema,
   params,
   response,
-} from "./src/endpoints";
+} from "./src/old/endpoints";
 import extract_entries from "./src/extract_entries";
 
 const app = express();
