@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {s} from "./data_types";
+import {s} from "./data_types_old";
 import {createTypeAlias, printNode, zodToTs} from "zod-to-ts";
 import write_to_file from "../helpers/write_to_file";
 

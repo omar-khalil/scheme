@@ -1,5 +1,5 @@
-import {endpoint_schema_type, s} from "./data_types2";
-import objects from "./objects2";
+import {endpoint_schema_type, s} from "./data_types";
+import objects from "./objects";
 
 export const endpoint_schema = {
   get_user: {

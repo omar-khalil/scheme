@@ -1,5 +1,5 @@
 import {SomeZodObject, ZodDiscriminatedUnion, ZodEnum, ZodLiteral, ZodObject, ZodRecord, ZodString, object, z} from "zod";
-import {objects} from "./objects";
+import {objects} from "./objects_old";
 
 const create_keyed_object: <T extends string, O extends object>(key: T, rest: {[K in T]: string} & O) => {[K in T]: string} & O = (key, rest) => {
   return rest;

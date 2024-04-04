@@ -2,9 +2,9 @@ import express from "express";
 import {
   params,
   response,
-} from "./src/old/endpoints";
+} from "./src/old/endpoints_old";
 import extract_entries from "./src/helpers/extract_entries";
-import {endpoint_schema} from "./src/endpoints2";
+import {endpoint_schema} from "./src/endpoints";
 
 const app = express();
 app.use(express.json());

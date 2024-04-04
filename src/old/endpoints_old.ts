@@ -1,5 +1,5 @@
-import {objects} from "./objects";
-import {endpoint_schema_type, response_schema, s} from "./data_types";
+import {objects} from "./objects_old";
+import {endpoint_schema_type, response_schema, s} from "./data_types_old";
 import {z} from "zod";
 import extract_entries from "../helpers/extract_entries";
 

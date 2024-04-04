@@ -1,4 +1,4 @@
-import {data_type} from "./data_types2";
+import {data_type} from "./data_types";
 
 const user_data_type: data_type = {
   type: 'object',

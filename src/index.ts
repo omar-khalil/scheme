@@ -1,5 +1,5 @@
-import {s, data_type} from "./data_types2";
-import {endpoint_schema} from "./endpoints2";
+import {s, data_type} from "./data_types";
+import {endpoint_schema} from "./endpoints";
 import extract_entries from "./helpers/extract_entries";
 import generate_contract from "./helpers/generate_contract";
 /**

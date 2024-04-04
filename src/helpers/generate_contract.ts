@@ -1,7 +1,7 @@
 import {ZodAny, ZodFirstPartySchemaTypes, ZodTypeAny} from "zod";
 import {createTypeAlias, printNode, zodToTs} from "zod-to-ts";
 import write_to_file from "./write_to_file";
-import {data_type} from "../data_types2";
+import {data_type} from "../data_types";
 import to_zod from "./to_zod";
 
 const generate_contract: (schema: data_type, identifier: string) => void = (schema, identifier) => {
