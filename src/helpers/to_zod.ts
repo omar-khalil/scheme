@@ -1,5 +1,5 @@
 import {ZodTypeAny, z, ZodAny} from "zod";
-import {data_type} from "./data_types2";
+import {data_type} from "../data_types2";
 import extract_entries from "./extract_entries";
 
 const to_zod: (data: data_type) => ZodTypeAny = (data) => {

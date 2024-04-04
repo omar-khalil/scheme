@@ -1,7 +1,7 @@
 import {ZodAny, ZodTypeAny, z} from "zod";
-import extract_entries from "./extract_entries";
-import zod_to_contract from "./zod_to_contract";
-import to_zod from "./to_zod";
+import extract_entries from "./helpers/extract_entries";
+import zod_to_contract from "./helpers/generate_contract";
+import to_zod from "./helpers/to_zod";
 
 type object_data_type = {type: 'object', properties: Record<string, data_type>};
 type string_data_type =
@@ -49,15 +49,4 @@ export type endpoint_schema_type = {
     params: {type: 'object', properties: Record<string, string_data_type>}; //Get requests can only contain params of type Record<string, string>. What about optional strings?
     responses: response_schema;
   };
-};
-
-
-const create_car_example = () => {
-  const car_schema2: data_type = s.du('brand', [
-    {brand: s.literal('honda'), speed: {type: 'number'}},
-    {brand: s.literal('bmw'), size: {type: 'string'}},
-  ]);
-
-  const car_schema2_zod = to_zod(car_schema2);
-  zod_to_contract(car_schema2_zod, 'car');
 };
