@@ -3,8 +3,8 @@ import {
   endpoint_schema,
   params,
   response,
-} from "./src/old/endpoints";
-import extract_entries from "./src/helpers/extract_entries";
+} from "../src/old/endpoints";
+import extract_entries from "../src/helpers/extract_entries";
 
 const app = express();
 app.use(express.json());
