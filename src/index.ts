@@ -18,10 +18,13 @@ import generate_contract from "./helpers/generate_contract";
 //TODO: call this from a yarn script
 const generate_endpoints_contract: () => void = () => {
   const all_params = extract_entries(endpoint_schema).reduce((acc, curr) => {
+    const responses_schemafied = curr.value.schema.responses.map(({status, data}) => s.obj({status: s.literal(status), data}))
+    //TODO: if responses_schemafied.length < 2, do not union (won't fit below 'as' casting)
+    const responses_union = s.union(responses_schemafied as [data_type, data_type, ...data_type[]]);
     return {
       ...acc, [curr.key]: s.obj({
         params: curr.value.schema.params,
-        // responses: curr.value.schema.responses, //TODO: function that turns responses into a data_type
+        responses: responses_union,
       })
     }
   }, {} as Record<keyof typeof endpoint_schema, data_type>);
@@ -30,3 +33,13 @@ const generate_endpoints_contract: () => void = () => {
 };
 
 generate_endpoints_contract(); //why is this returning endpoint_schema unmodified?
+
+const foo: (endpoint: endpoints['get_user']) => void = (endpoint) => {
+  switch (endpoint.responses.status) {
+    case 200:
+      const {age, name} = endpoint.responses.data;
+      break;
+    case 404:
+      const {message} = endpoint.responses.data;
+  }
+}
