@@ -2,6 +2,7 @@ import {s, data_type} from "./data_types";
 import {endpoint_schema} from "./endpoints";
 import extract_entries from "./helpers/extract_entries";
 import generate_contract from "./helpers/generate_contract";
+import responses_to_zod, {responses_to_schema} from "./helpers/responses_to_zod";
 /**
  * end result will be a type:
  * type endpoints = {
@@ -18,9 +19,7 @@ import generate_contract from "./helpers/generate_contract";
 //TODO: call this from a yarn script
 const generate_endpoints_contract: () => void = () => {
   const all_params = extract_entries(endpoint_schema).reduce((acc, curr) => {
-    const responses_schemafied = curr.value.schema.responses.map(({status, data}) => s.obj({status: s.literal(status), data}))
-    //TODO: if responses_schemafied.length < 2, do not union (won't fit below 'as' casting)
-    const responses_union = s.union(responses_schemafied as [data_type, data_type, ...data_type[]]);
+    const responses_union = responses_to_schema(curr.value.schema.responses);
     return {
       ...acc, [curr.key]: s.obj({
         params: curr.value.schema.params,

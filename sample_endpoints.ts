@@ -1,19 +1,18 @@
 import express from "express";
-import {
-  params,
-  response,
-} from "./src/old/endpoints_old";
 import extract_entries from "./src/helpers/extract_entries";
 import {endpoint_schema} from "./src/endpoints";
+import to_zod from "./src/helpers/to_zod";
 
 const app = express();
 app.use(express.json());
 
-type endpoint_keys = keyof typeof endpoint_schema;
+type endpoint_key = keyof endpoints;
+type params<T extends endpoint_key> = endpoints[T]['params'];
+type responses<T extends endpoint_key> = endpoints[T]['responses'];
 
-const endpoint_implementations: {[p in endpoint_keys]: (params: params<p>) => response<p>} = {
-  get_user: ({user_id, type}) => {
-    console.log(`Getting ${user_id} of type ${type}`);
+const endpoint_implementations: {[p in endpoint_key]: (params: params<p>) => responses<p>} = {
+  get_user: ({user_id, user_type}) => {
+    console.log(`Getting ${user_id} of type ${user_type}`);
     if (user_id === 'error') {
       return {
         status: 404,
@@ -54,7 +53,8 @@ const run_server = () => {
   extract_entries(endpoint_implementations).forEach(({key, value: method}) => {
     const {type, url, schema} = endpoint_schema[key];
     app[type](url, (req, res) => {
-      const params = schema.params.parse(type === 'get' ? req.query : req.body); //validate request params against endpoint schema. Throws an error if params doesn't match
+      const params_zod = to_zod(schema.params);
+      const params = params_zod.parse(type === 'get' ? req.query : req.body); //validate request params against endpoint schema. Throws an error if params doesn't match
 
       const response = method(params as any); //now that params has been validated, it's safe to use 'as any' here
       res.status(200).send(response);
