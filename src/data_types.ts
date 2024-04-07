@@ -1,8 +1,3 @@
-import {ZodAny, ZodTypeAny, z} from "zod";
-import extract_entries from "./helpers/extract_entries";
-import zod_to_contract from "./helpers/generate_contract";
-import to_zod from "./helpers/to_zod";
-
 type object_data_type = {type: 'object', properties: Record<string, data_type>};
 type string_data_type =
   {type: 'string'} |

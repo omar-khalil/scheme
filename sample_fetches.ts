@@ -3,8 +3,8 @@ import {z} from "zod";
 import {endpoint_schema} from "./src/endpoints";
 import extract_entries from "./src/helpers/extract_entries";
 import to_zod from "./src/helpers/to_zod";
-import {data_type, s} from "./src/data_types";
 import responses_to_zod from "./src/helpers/responses_to_zod";
+import {endpoints} from "./contracts/endpoints";
 
 const base = "http://localhost:4001";
 
@@ -51,8 +51,8 @@ const fetchers = extract_entries(endpoint_schema)
   .reduce((acc, curr) => ({...acc, [curr.key]: curr.fetcher}), {} as fetchers_dict);
 
 const run_fetch = async () => {
-  // const result = await fetchers.post_user({name: "Omar", age: 300});
-  // console.log(result);
+  const post_result = await fetchers.post_user({name: "Omar", age: 300});
+  console.log(post_result);
 
   const get_result = await fetchers.get_user({user_id: 'omar', user_type: 'student'});
   console.log(get_result);

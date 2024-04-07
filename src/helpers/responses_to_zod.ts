@@ -1,7 +1,6 @@
 import {ZodTypeAny} from "zod";
 import {data_type, endpoint_schema_type, s, union_type} from "../data_types";
 import to_zod from "./to_zod";
-import {response} from "../old/endpoints_old";
 
 export const responses_to_schema: (responses: endpoint_schema_type['schema']['responses']) => union_type = (responses) => {
   const responses_schemafied = responses.map(({status, data}) => s.obj({status: s.literal(status), data}))

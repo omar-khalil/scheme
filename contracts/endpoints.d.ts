@@ -1,4 +1,4 @@
-type endpoints = {
+export type endpoints = {
     get_user: {
         params: {
             user_id: string;

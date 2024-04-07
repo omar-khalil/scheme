@@ -2,7 +2,8 @@ import {s, data_type} from "./data_types";
 import {endpoint_schema} from "./endpoints";
 import extract_entries from "./helpers/extract_entries";
 import generate_contract from "./helpers/generate_contract";
-import responses_to_zod, {responses_to_schema} from "./helpers/responses_to_zod";
+import {responses_to_schema} from "./helpers/responses_to_zod";
+
 /**
  * end result will be a type:
  * type endpoints = {
@@ -15,7 +16,6 @@ import responses_to_zod, {responses_to_schema} from "./helpers/responses_to_zod"
  *  }
  * }
  */
-
 //TODO: call this from a yarn script
 const generate_endpoints_contract: () => void = () => {
   const all_params = extract_entries(endpoint_schema).reduce((acc, curr) => {
@@ -31,14 +31,4 @@ const generate_endpoints_contract: () => void = () => {
   generate_contract(all_endpoints, 'endpoints');
 };
 
-generate_endpoints_contract(); //why is this returning endpoint_schema unmodified?
-
-const foo: (endpoint: endpoints['get_user']) => void = (endpoint) => {
-  switch (endpoint.responses.status) {
-    case 200:
-      const {age, name} = endpoint.responses.data;
-      break;
-    case 404:
-      const {message} = endpoint.responses.data;
-  }
-}
+generate_endpoints_contract();

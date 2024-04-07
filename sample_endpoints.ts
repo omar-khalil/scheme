@@ -2,6 +2,7 @@ import express from "express";
 import extract_entries from "./src/helpers/extract_entries";
 import {endpoint_schema} from "./src/endpoints";
 import to_zod from "./src/helpers/to_zod";
+import {endpoints} from "./contracts/endpoints";
 
 const app = express();
 app.use(express.json());
