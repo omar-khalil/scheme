@@ -59,5 +59,3 @@ const run_fetch = async () => {
 };
 
 run_fetch();
-
-//TODO: Test running sample fetches against sample endpoints
