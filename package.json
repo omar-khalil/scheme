@@ -16,6 +16,6 @@
     "zod-to-ts": "^1.2.0"
   },
   "publishConfig": {
-    "@omar-khalil:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/@omar-khalil"
   }
 }
