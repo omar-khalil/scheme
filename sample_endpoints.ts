@@ -1,18 +1,8 @@
-import express from "express";
-import extract_entries from "./src/helpers/extract_entries";
-import {endpoint_schema} from "./src/endpoints";
-import to_zod from "./src/helpers/to_zod";
-import {endpoints} from "./contracts/endpoints";
+import {run_server} from "./src/run_server";
 
-const app = express();
-app.use(express.json());
+run_server({
 
-type endpoint_key = keyof endpoints;
-type params<T extends endpoint_key> = endpoints[T]['params'];
-type responses<T extends endpoint_key> = endpoints[T]['responses'];
-
-const endpoint_implementations: {[p in endpoint_key]: (params: params<p>) => responses<p>} = {
-  get_user: ({user_id, user_type}) => {
+  get_user: async ({user_id, user_type}) => {
     console.log(`Getting ${user_id} of type ${user_type}`);
     if (user_id === 'error') {
       return {
@@ -30,7 +20,8 @@ const endpoint_implementations: {[p in endpoint_key]: (params: params<p>) => res
       }
     };
   },
-  post_user: ({name, age}) => {
+
+  post_user: async ({name, age}) => {
     console.log(`Posting ${name} who is ${age} years old`);
     return {
       status: 200,
@@ -39,7 +30,8 @@ const endpoint_implementations: {[p in endpoint_key]: (params: params<p>) => res
       }
     };
   },
-  delete_user: ({user_id}) => {
+
+  delete_user: async ({user_id}) => {
     console.log(`Deleting ${user_id}`);
     return {
       status: 200,
@@ -48,24 +40,5 @@ const endpoint_implementations: {[p in endpoint_key]: (params: params<p>) => res
       }
     };
   },
-};
 
-const run_server = () => {
-  extract_entries(endpoint_implementations).forEach(({key, value: method}) => {
-    const {type, url, schema} = endpoint_schema[key];
-    app[type](url, (req, res) => {
-      const params_zod = to_zod(schema.params);
-      const params = params_zod.parse(type === 'get' ? req.query : req.body); //validate request params against endpoint schema. Throws an error if params doesn't match
-
-      const response = method(params as any); //now that params has been validated, it's safe to use 'as any' here
-      res.status(200).send(response);
-    });
-  });
-
-  const PORT = 4001;
-  app.listen(PORT, () => {
-    console.log(`api-server started on port http://localhost:${PORT}`);
-  });
-};
-
-run_server();
+});
