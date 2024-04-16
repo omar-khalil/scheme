@@ -1,4 +1,7 @@
-import {fetchers} from "./src/create_fetchers";
+import {create_fetchers} from "./src/create_fetchers";
+
+const base = "http://localhost:4001";
+const fetchers = create_fetchers(base);
 
 const run_fetch = async () => {
   const post_result = await fetchers.post_user({name: "Omar", age: 300});

@@ -6,7 +6,6 @@ import extract_entries from "./helpers/extract_entries";
 import responses_to_zod from "./helpers/responses_to_zod";
 import to_zod from "./helpers/to_zod";
 
-const base = "http://localhost:4001";
 
 type endpoint_key = keyof endpoints;
 type params<T extends endpoint_key> = endpoints[T]['params'];
@@ -15,7 +14,7 @@ type responses<T extends endpoint_key> = endpoints[T]['responses'];
 type fetcher<T extends endpoint_key> = (params: params<T>) => Promise<responses<T>>
 type fetchers_dict = {[k in endpoint_key]: fetcher<k>};
 
-const create_fetcher: <T extends endpoint_key>(endpoint: T) => fetcher<T> = (endpoint) => {
+const create_fetcher: <T extends endpoint_key>(base_url: string, endpoint: T) => fetcher<T> = (base, endpoint) => {
   const {type, url, schema} = endpoint_schema[endpoint];
   const zod_responses = responses_to_zod(schema.responses);
   type T = typeof endpoint;
@@ -45,6 +44,6 @@ const create_fetcher: <T extends endpoint_key>(endpoint: T) => fetcher<T> = (end
   }
 };
 
-export const fetchers = extract_entries(endpoint_schema)
-  .map(({key}) => ({key, fetcher: create_fetcher(key)}))
+export const create_fetchers: (base_url: string) => fetchers_dict = (base) => extract_entries(endpoint_schema)
+  .map(({key}) => ({key, fetcher: create_fetcher(base, key)}))
   .reduce((acc, curr) => ({...acc, [curr.key]: curr.fetcher}), {} as fetchers_dict);
