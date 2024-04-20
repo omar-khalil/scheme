@@ -2,13 +2,13 @@ export type endpoints = {
     get_user: {
         params: {
             user_id: string;
-            user_type: "student" | "teacher";
         };
         responses: {
             status: 200;
             data: {
                 name: string;
                 age: number;
+                user_type: "student" | "teacher";
             };
         } | {
             status: 404;
@@ -21,6 +21,7 @@ export type endpoints = {
         params: {
             name: string;
             age: number;
+            user_type: "student" | "teacher";
         };
         responses: {
             status: 200;

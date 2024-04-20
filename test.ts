@@ -1,3 +1,0 @@
-type params = {
-    message: string;
-};

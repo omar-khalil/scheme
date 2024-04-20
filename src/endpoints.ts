@@ -8,7 +8,6 @@ export const endpoint_schema = {
     schema: {
       params: s.string_record({ //FIXME: maybe params should just accept an object that gets chewed into a datatype later, like with responses?
         user_id: s.str(),
-        user_type: s.enum(['student', 'teacher']),
       }),
       responses: [
         {status: 200, data: objects.user},

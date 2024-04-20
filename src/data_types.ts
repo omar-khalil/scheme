@@ -3,9 +3,7 @@ type string_data_type =
   {type: 'string'} |
   {type: 'enum', values: [string, ...string[]]} |
   {type: 'literal', value: string | number};
-
 export type union_type = {type: 'union', values: [data_type, data_type, ...data_type[]]};
-
 export type data_type =
   {type: 'number' | 'boolean' | 'undefined' | 'null'} |
   {type: 'array', element_type: data_type} |

@@ -2,8 +2,8 @@ import {run_server} from "./src/run_server";
 
 run_server({
 
-  get_user: async ({user_id, user_type}) => {
-    console.log(`Getting ${user_id} of type ${user_type}`);
+  get_user: async ({user_id}) => {
+    console.log(`Getting ${user_id}`);
     if (user_id === 'error') {
       return {
         status: 404,
@@ -17,12 +17,13 @@ run_server({
       data: {
         name: "name!",
         age: 123,
+        user_type: 'teacher',
       }
     };
   },
 
-  post_user: async ({name, age}) => {
-    console.log(`Posting ${name} who is ${age} years old`);
+  post_user: async ({name, age, user_type}) => {
+    console.log(`Posting ${name} who is a ${age} year-old ${user_type}`);
     return {
       status: 200,
       data: {

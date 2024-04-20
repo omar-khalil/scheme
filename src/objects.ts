@@ -1,10 +1,11 @@
-import {data_type} from "./data_types";
+import {data_type, s} from "./data_types";
 
 const user_data_type: data_type = {
   type: 'object',
   properties: {
-    name: {type: 'string'},
-    age: {type: 'number'},
+    name: s.str(),
+    age: s.num(),
+    user_type: s.enum(['student', 'teacher']),
   }
 };
 

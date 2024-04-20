@@ -16,7 +16,8 @@ import {responses_to_schema} from "./helpers/responses_to_zod";
  *  }
  * }
  */
-//TODO: call this from a yarn script
+
+//TODO: call this automatically when exporting to a package
 const generate_endpoints_contract: () => void = () => {
   const all_params = extract_entries(endpoint_schema).reduce((acc, curr) => {
     const responses_union = responses_to_schema(curr.value.schema.responses);
