@@ -5,7 +5,7 @@ type string_data_type =
   {type: 'literal', value: string | number};
 export type union_type = {type: 'union', values: [data_type, data_type, ...data_type[]]};
 export type data_type =
-  {type: 'number' | 'boolean' | 'undefined' | 'null'} |
+  {type: 'number'} | {type: 'boolean'} | {type: 'undefined'} | {type: 'null'} |
   {type: 'array', element_type: data_type} |
   union_type |
   string_data_type |
