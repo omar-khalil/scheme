@@ -1,3 +1,5 @@
+import {optional} from "zod";
+
 type object_data_type = {type: 'object', properties: Record<string, data_type>};
 type string_data_type =
   {type: 'string'} |
@@ -26,6 +28,8 @@ export const s = {
   }),
   obj: (properties: Record<string, data_type>) => ({type: 'object', properties: properties}),
   string_record: (properties: Record<string, string_data_type>) => ({type: 'object', properties: properties}),
+  optional: (value: data_type) => ({type: 'union', values: [value, {type: 'undefined'}]}),
+  nullable: (value: data_type) => ({type: 'union', values: [value, {type: 'null'}]}),
 } satisfies Record<string, (props1: any, props2: any) => data_type>;
 
 type api_method = "put" | "post" | "patch" | "delete" | "get";
