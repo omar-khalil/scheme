@@ -71,6 +71,7 @@ run_server({
     }
     return {
       status: 200,
+      //if any of these do not match, any mismatched types will be caught during runtime
       data: {
         name: user.name,
         age: user.age,
