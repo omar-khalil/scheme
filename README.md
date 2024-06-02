@@ -41,7 +41,7 @@ Commit and push these changes to the default branch of your forked repository
 Import the forked repository containing the generated contracts in the `package.json` of both your client and server projects. This will allow you to use the ready-made fetch and server functions.
 
 ```json
-// package.json
+//package.json
 {
   "dependencies": {
     "scheme": "git+https://github.com/your-username/scheme-forked-repo.git"
