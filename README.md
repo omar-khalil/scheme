@@ -71,7 +71,7 @@ run_server({
     }
     return {
       status: 200,
-      //Runtime validation will catch any mismached types
+      //Runtime validation will catch any mismached type
       data: {
         name: user.name,
         age: user.age,
