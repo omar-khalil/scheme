@@ -57,7 +57,7 @@ Import and use the type-guarded functions in your projects. Use `run_server` for
 import {run_server} from 'scheme/src/run_server';
 
 run_server({
-  //get_user's parameters will be typed and return value type-guarded based on your schema
+  //get_user's parameters will be typed and its return value type-guarded based on your schema
   get_user: async ({user_id}) => {
     console.log(`Getting ${user_id}`);
     const user = await some_db.get_user(user_id);
