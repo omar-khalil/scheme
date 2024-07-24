@@ -129,11 +129,11 @@ Full examples can be seen in the [scheme-server-sample](https://github.com/omar-
 
 
 ## TODO
-- [ ] Export the dependency to package registry via GitHub actions instead of directly importing the repository
+- [ ] Export the dependency to package registry via GitHub actions to avoid having to directly import this repository in dependant projects
 - [ ] Separate schema definition into its own repo
   - [ ] A separate sample project with a schema definition example
 - [ ] More readable Zod validation errors
-- [ ] Customizable fetch/server engines
+- [ ] Overridable fetch/server functions (use your own fetch and server engines)
 - [ ] Customizable validation error handling
 - [ ] ESLint
 
